@@ -1,3 +1,4 @@
 # Introduction to diceware
 
-TODO: write [great documentation](http://jacobian.org/writing/what-to-write/)
+I'd suggest you read about this elsewhere at the [Diceware Passphrase Homempage](http://world.std.com/~reinhold/diceware.html)
+

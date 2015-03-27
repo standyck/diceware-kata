@@ -1,32 +1,14 @@
 # diceware
 
-FIXME: description
-
-## Installation
-
-Download from http://example.com/FIXME.
+A kata I did to use the [diceware wordlist](http://world.std.com/~reinhold/diceware.html) to generate a password. You really shouldn't use this to generate passwords for yourself though because if your machine is compromised, any passwords you generate with it will also be compromised. I just did it for fun.
 
 ## Usage
 
-FIXME: explanation
+To output n random diceware wordlist words do this
 
-    $ java -jar diceware-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+    $ java -jar diceware-0.1.0-standalone.jar [n]
+    
+If you don't supply an n, it will default to 5.
 
 ## License
 
