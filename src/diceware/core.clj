@@ -2,7 +2,8 @@
   (:gen-class)
   (:require [clojure.java.io :as io]))
 
-(def wordlist-url (java.net.URL. "http://world.std.com/~reinhold/diceware.wordlist.asc"))
+;(def wordlist-url (java.net.URL. "http://world.std.com/~reinhold/diceware.wordlist.asc"))
+(def wordlist-url (java.net.URL. "http://www.standyck.com/diceware.wordlist.asc"))
 
 (defn get-wordlist
   ([] (get-wordlist wordlist-url))
