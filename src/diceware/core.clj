@@ -18,14 +18,16 @@
 
 (def wordlist-map (delay (reduce conj {} (map split-line (get-wordlist)))))
 
-(defn roll-die []
+(defn roll-die
+  "Returns number between 1 and 6."
+  []
   (inc (rand-int 6)))
 
 (defn generate-key
   "Rolls a die 5 times to create a 5 digit number."
   []
   (let [exponents (map #(int (Math/pow 10 %)) (reverse (range 0 5)))]
-    (reduce + (map #(* %1 %2) exponents (repeatedly roll-die)))))
+    (reduce + (map * (repeatedly roll-die) exponents))))
 
 (defn get-random-word
   "What it says on the tin"
