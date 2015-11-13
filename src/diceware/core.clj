@@ -6,30 +6,42 @@
 (def wordlist-url (java.net.URL. "http://www.standyck.com/diceware.wordlist.asc"))
 
 (defn get-wordlist
+  "Downloads the wordlist from the specified url (or wordlist-url) and filters only
+  the lines with words."
   ([] (get-wordlist wordlist-url))
   ([url] (filter #(re-matches #"[1-6]{5}.*" %) (line-seq (io/reader url)))))
 
-(defn split-line [line]
-  (let [splitted (first (re-seq #"([1-6]{5}).(.*)" line))]
-    [(Integer/parseInt (second splitted)) (last splitted)]))
+(defn split-line
+  "Splits a wordlist line into it's key and value"
+  [line]
+  (if-let [[_ k v] (first (re-seq #"([1-6]{5}).(.*)" line))]
+    [(Integer/parseInt k) v]))
 
 (def wordlist-map (delay (reduce conj {} (map split-line (get-wordlist)))))
 
-(defn roll-die []
+(defn roll-die
+  "Returns number between 1 and 6."
+  []
   (inc (rand-int 6)))
 
-(defn generate-key []
+(defn generate-key
+  "Rolls a die 5 times to create a 5 digit number."
+  []
   (let [exponents (map #(int (Math/pow 10 %)) (reverse (range 0 5)))]
-    (reduce + (map #(* %1 %2) exponents (repeatedly roll-die)))))
+    (reduce + (map * (repeatedly roll-die) exponents))))
 
-(defn get-random-word []
+(defn get-random-word
+  "What it says on the tin"
+  []
   (get @wordlist-map (generate-key)))
 
-(defn genpw [n] (repeatedly n get-random-word))
+(defn generate-password
+  "Gets n random words from the word list."
+  [n] (repeatedly n get-random-word))
 
 (defn -main
   ([] (-main 5))
   ([n] (let [n (if (integer? n) n
                    (try (Integer/parseInt n)
                         (catch Exception e 5)))]
-         (println (genpw n)))))
+         (println (generate-password n)))))
