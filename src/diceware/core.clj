@@ -27,7 +27,7 @@
 (defn generate-key
   "Rolls a die 5 times to create a 5 digit number."
   []
-  (let [exponents (map #(int (Math/pow 10 %)) (reverse (range 0 5)))]
+  (let [exponents (map #(int (Math/pow 10 %)) (range 5))]
     (reduce + (map * (repeatedly roll-die) exponents))))
 
 (defn get-random-word
