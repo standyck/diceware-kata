@@ -3,7 +3,7 @@
   (:require [clojure.java.io :as io]))
 
 ;(def wordlist-url (java.net.URL. "http://world.std.com/~reinhold/diceware.wordlist.asc"))
-(def wordlist-url (java.net.URL. "http://www.standyck.com/diceware.wordlist.asc"))
+(def wordlist-url (java.net.URL. "https://www.standyck.com/diceware.wordlist.asc"))
 
 (defn get-wordlist
   "Downloads the wordlist from the specified url (or wordlist-url) and filters only
