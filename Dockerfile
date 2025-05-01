@@ -1,24 +1,27 @@
-# Build stage
-FROM clojure:lein as builder
-
-WORKDIR /usr/src/app
-
-# Copy dependency information first
-COPY project.clj ./
-RUN lein deps
-
-# Copy source code
-COPY . .
-
-# Build the uberjar with a predictable name
-RUN lein uberjar && \
-    mv target/uberjar/*-standalone.jar app-standalone.jar
-
-# Runtime stage
-FROM eclipse-temurin:17-jre-alpine
+# Stage 1: Build the application
+FROM clojure:openjdk-8-lein AS builder
 
 WORKDIR /app
-COPY --from=builder /usr/src/app/app-standalone.jar ./
 
-ENTRYPOINT ["java", "-jar", "app-standalone.jar"]
-CMD ["5"]
+# Copy only the files needed for dependency resolution first
+COPY project.clj /app/
+
+# Download dependencies
+RUN lein deps
+
+# Copy the rest of the application
+COPY . /app/
+
+# Build the uberjar
+RUN lein uberjar
+
+# Stage 2: Create a minimal runtime image
+FROM eclipse-temurin:8-jre-alpine
+
+WORKDIR /app
+
+# Copy only the uberjar from the builder stage
+COPY --from=builder /app/target/uberjar/diceware-0.1.0-SNAPSHOT-standalone.jar /app/diceware.jar
+
+# Set the entrypoint
+ENTRYPOINT ["java", "-jar", "/app/diceware.jar"]
