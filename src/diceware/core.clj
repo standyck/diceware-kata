@@ -43,5 +43,5 @@
   ([] (-main 5))
   ([n] (let [n (if (integer? n) n
                    (try (Integer/parseInt n)
-                        (catch Exception e 5)))]
+                        (catch Exception _ 5)))]
          (println (generate-password n)))))
